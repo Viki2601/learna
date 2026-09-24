@@ -9,21 +9,21 @@ export default function Landing() {
             <section className="relative overflow-hidden px-8 pt-20 pb-28 md:px-16">
                 <div className="relative z-10 grid gap-16 md:grid-cols-2 md:items-center">
                     <div className="max-w-xl">
-                        <p className="mb-5 font-display text-lg font-medium tracking-widest text-[#B8860B]">For the hour before your interview</p>
+                        <p className="mb-5 text-lg font-medium text-[#B8860B]">For the hour before your interview</p>
                         <h1 className="text-5xl font-display font-semibold tracking-widest leading-[1.1] md:text-[76px]">
                             <span className="italic">Know it cold.</span>
                             <br />
                             <span>Walk in ready.</span>
                         </h1>
-                        <p className="mt-6 font-display tracking-widest text-lg text-[#5B5B5B]">
+                        <p className="mt-6 text-lg text-[#5B5B5B]">
                             {`Learna organizes every tool, language, and concept into quick-recall questions and answers — so the night before an interview, you're skimming what matters, not rereading a whole course.`}
                         </p>
                         <div className="mt-9 flex flex-wrap items-center gap-4">
-                            <Link href={'/category'} className="text-md font-display tracking-widest font-medium text-[#141414] underline underline-offset-4">
+                            <Link href={'/category'} className="text-md tracking-widest font-medium text-[#141414] hover:rounded-full hover:px-5 hover:py-2 hover:bg-black hover:text-white transition-all duration-1000">
                                 Browse categories
                             </Link>
                         </div>
-                        <div className="mt-12 flex gap-10 font-display tracking-widest text-sm text-[#5B5B5B]">
+                        <div className="mt-12 flex gap-10 tracking-widest text-sm text-[#5B5B5B]">
                             <div>
                                 <span className="block text-2xl font-semibold text-[#141414]">40+</span>
                                 categories

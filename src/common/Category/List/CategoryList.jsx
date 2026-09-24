@@ -2,6 +2,7 @@
 import { CATEGORIES, RESULTS } from "@/lib/category";
 import { getQAByModuleSlug } from "@/lib/questionAndAnswer";
 import Image from "next/image";
+import { useRef } from "react";
 import Link from "next/link";
 import { useState, useMemo, useEffect } from "react";
 import { Menu, X } from "lucide-react";
@@ -10,6 +11,8 @@ const SORT_OPTIONS = ["Most questions", "A–Z", "Recently added"];
 const LEVEL_OPTIONS = ["All levels", "Beginner", "Intermediate", "Advanced"];
 
 export default function CategoryList() {
+    const levelRef = useRef(null);
+    const sortRef = useRef(null);
     const [activeCategory, setActiveCategory] = useState("all");
     const [search, setSearch] = useState("");
     const [categorySearch, setCategorySearch] = useState("");
@@ -36,6 +39,20 @@ export default function CategoryList() {
             document.body.style.overflow = previousOverflow;
         };
     }, [sidebarOpen]);
+
+    // Close dropdowns when clicking outside them
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (levelRef.current && !levelRef.current.contains(event.target)) {
+                setLevelOpen(false);
+            }
+            if (sortRef.current && !sortRef.current.contains(event.target)) {
+                setSortOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     // Dynamic question counts synced with actual loaded Q&A dataset
     const enrichedResults = useMemo(() => {
@@ -82,7 +99,7 @@ export default function CategoryList() {
     return (
         <div className="flex w-full h-[calc(100vh-160px)] lg:h-[calc(100vh-104px)] rounded-b-xl overflow-hidden bg-white text-[#141414]">
             <div aria-hidden="true" onClick={() => setSidebarOpen(false)} className={`fixed inset-0 z-60 bg-black/40 transition-opacity duration-300 md:hidden ${sidebarOpen ? "opacity-100" : "pointer-events-none opacity-0"}`} />
-            <aside className={`fixed inset-y-0 left-0 z-70 flex w-72 max-w-[85vw] shrink-0 flex-col overflow-y-auto border-r border-black/5 bg-white px-6 scrollbar-hide shadow-2xl transition-transform duration-300 ease-out md:static md:z-auto md:w-64 md:max-w-none md:translate-x-0 md:shadow-none ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
+            <aside className={`font-raleway fixed inset-y-0 left-0 z-70 flex w-72 max-w-[85vw] shrink-0 flex-col overflow-y-auto border-r border-black/5 bg-white px-6 scrollbar-hide shadow-2xl transition-transform duration-300 ease-out md:static md:z-auto md:w-64 md:max-w-none md:translate-x-0 md:shadow-none ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
                 <div className="sticky top-0 bg-white py-5">
                     <div className="flex items-center justify-between">
                         <p className="text-sm font-bold tracking-widest font-display text-[#8A8A8A]">BROWSE</p>
@@ -146,7 +163,7 @@ export default function CategoryList() {
                     </div>
 
                     <div className="flex items-center gap-2.5 sm:gap-3">
-                        <div className="relative">
+                        <div className="relative" ref={levelRef}>
                             <button onClick={() => setLevelOpen((o) => !o)} className="flex items-center gap-1.5 rounded-full border border-black/10 px-3 py-2 text-xs tracking-widest text-[#5B5B5B] hover:border-black/20 sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm">
                                 {activeLevel}
                                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -155,7 +172,7 @@ export default function CategoryList() {
                             </button>
 
                             {levelOpen && (
-                                <div className="absolute right-0 z-20 mt-2 w-40 overflow-hidden rounded-xl border border-black/5 bg-white shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)]">
+                                <div className="absolute left-0 z-20 mt-2 w-40 overflow-hidden rounded-xl border border-black/5 bg-white shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)]">
                                     {LEVEL_OPTIONS.map((opt) => (
                                         <button key={opt} onClick={() => { setActiveLevel(opt); setLevelOpen(false); }} className={`block w-full px-4 py-2.5 text-left text-sm tracking-widest hover:bg-black/5 ${activeLevel === opt ? "text-black" : "text-[#5B5B5B]"}`}>
                                             {opt}
@@ -166,7 +183,7 @@ export default function CategoryList() {
                         </div>
 
                         {/* SORT */}
-                        <div className="relative">
+                        <div className="relative" ref={sortRef}>
                             <button onClick={() => setSortOpen((o) => !o)} className="flex items-center gap-1.5 rounded-full border border-black/10 px-3 py-2 text-xs tracking-widest text-[#5B5B5B] hover:border-black/20 sm:gap-2 sm:px-4 sm:py-2.5 sm:text-sm">
                                 {sortBy}
                                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
