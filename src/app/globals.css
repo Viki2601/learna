@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "NCL Gasdrifo";
+  src: url("/fonts/ncl-gasdrifo/NCLGasdrifo-Demo.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -8,19 +16,64 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-display: "NCL Gasdrifo", sans-serif;
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+.font-jost {
+  font-family: var(--font-jost, "Jost"), sans-serif;
+  font-optical-sizing: auto;
+}
+
+.font-raleway {
+  font-family: var(--font-raleway, "Raleway"), sans-serif;
+  font-optical-sizing: auto;
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+@layer utilities {
+  .scrollbar-modern {
+    scrollbar-width: thin;
+    scrollbar-color: #141414 transparent;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 8px 0;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #141414 0%, #141414 50%, #B8B8B8 50%, #B8B8B8 100%);
+    border-radius: 999px;
+    border: 1px solid white;
+    background-clip: padding-box;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #000000 0%, #000000 50%, #888888 50%, #888888 100%);
+    border: 1px solid white;
+    background-clip: padding-box;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-corner {
+    background: transparent;
+  }
 }
